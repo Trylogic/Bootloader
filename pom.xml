@@ -6,7 +6,7 @@
 
 	<artifactId>bootloader</artifactId>
 	<packaging>swc</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>${module.bootloader.version}</version>
 
 	<parent>
 		<groupId>ru.trylogic</groupId>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>ru.trylogic</groupId>
 			<artifactId>insulin</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${module.insulin.version}</version>
 			<type>swc</type>
 			<scope>external</scope>
 		</dependency>
