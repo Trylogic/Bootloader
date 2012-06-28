@@ -1,5 +1,6 @@
 package tl.bootloader
 {
+
 	import flash.display.*;
 	import flash.events.*;
 	import flash.system.ApplicationDomain;
@@ -27,43 +28,7 @@ package tl.bootloader
 		{
 			stop();
 
-			var preloaderClass : Class = info()["preloader"];
-
-			if ( preloaderClass == null ||
-					(ApplicationDomain.currentDomain.hasDefinition( "mx.preloaders::SparkDownloadProgressBar" ) && preloaderClass == ApplicationDomain.currentDomain.getDefinition( 'mx.preloaders::SparkDownloadProgressBar' ))
-					)
-			{
-				preloaderClass = PreloaderBase;
-			}
-
-			preloader = addChild( new preloaderClass( this ) ) as PreloaderBase;
-
-			addEventListener( Event.ENTER_FRAME, enterFrameHandler );
-		}
-
-		private function enterFrameHandler( e : Event ) : void
-		{
-			if ( framesLoaded >= totalFrames )
-			{
-				removeEventListener( e.type, arguments.callee );
-
-				preloader.process( loadApplication );
-			} else
-			{
-				preloader.setProgress( root.loaderInfo.bytesLoaded / root.loaderInfo.bytesTotal );
-			}
-		}
-
-		/**
-		 * By default, Application loader add new Main Class to stage.
-		 * You can override this method, but DO NOT FORGET to call nextFrame(); and removeChild( preloader ): !!!
-		 *
-		 */
-		protected function loadApplication() : void
-		{
-			nextFrame();
-			removeChild( preloader );
-			addChild( create() as DisplayObject );
+			init();
 		}
 
 		public function get allowDomainsInNewRSLs() : Boolean
@@ -123,6 +88,47 @@ package tl.bootloader
 
 		public function registerImplementation( interfaceName : String, impl : Object ) : void
 		{
+		}
+
+		protected function init() : void
+		{
+			var preloaderClass : Class = info()["preloader"];
+
+			if ( preloaderClass == null ||
+					(ApplicationDomain.currentDomain.hasDefinition( "mx.preloaders::SparkDownloadProgressBar" ) && preloaderClass == ApplicationDomain.currentDomain.getDefinition( 'mx.preloaders::SparkDownloadProgressBar' ))
+					)
+			{
+				preloaderClass = PreloaderBase;
+			}
+
+			preloader = addChild( new preloaderClass( this ) ) as PreloaderBase;
+
+			addEventListener( Event.ENTER_FRAME, enterFrameHandler );
+		}
+
+		/**
+		 * By default, Application loader add new Main Class to stage.
+		 * You can override this method, but DO NOT FORGET to call nextFrame(); and removeChild( preloader ): !!!
+		 *
+		 */
+		protected function loadApplication() : void
+		{
+			nextFrame();
+			removeChild( preloader );
+			addChild( create() as DisplayObject );
+		}
+
+		private function enterFrameHandler( e : Event ) : void
+		{
+			if ( framesLoaded >= totalFrames )
+			{
+				removeEventListener( e.type, arguments.callee );
+
+				preloader.process( loadApplication );
+			} else
+			{
+				preloader.setProgress( root.loaderInfo.bytesLoaded / root.loaderInfo.bytesTotal );
+			}
 		}
 	}
 

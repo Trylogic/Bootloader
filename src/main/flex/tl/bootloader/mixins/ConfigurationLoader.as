@@ -1,5 +1,6 @@
 package tl.bootloader.mixins
 {
+
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	import flash.net.*;
@@ -14,11 +15,11 @@ package tl.bootloader.mixins
 	 *
 	 * @example
 	 * <listing version="3.0">
-	 *	 ConfigurationLoader.CONFIGURATIONS =
-	 *	 [
-	 *			 "http://www.mySite.com/configs/myConfig.xml",
-	 *			 "http://www.mySite.com/configs/myAnotherConfig.xml"
-	 *	 ];
+	 *     ConfigurationLoader.CONFIGURATIONS =
+	 *     [
+	 *             "http://www.mySite.com/configs/myConfig.xml",
+	 *             "http://www.mySite.com/configs/myAnotherConfig.xml"
+	 *     ];
 	 * </listing>
 	 *
 	 */
@@ -62,13 +63,16 @@ package tl.bootloader.mixins
 		/**
 		 * Get constant from loaded configs
 		 *
-		 * @param name	Constant identifier
+		 * @param name    Constant identifier
 		 * @return
 		 */
 		public static function getConst( name : String ) : XML
 		{
 			var config : XML = configs[name];
-			if ( config == null ) config = new XML();
+			if ( config == null )
+			{
+				config = new XML();
+			}
 			return config;
 		}
 

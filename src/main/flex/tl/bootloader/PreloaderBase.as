@@ -1,5 +1,6 @@
 package tl.bootloader
 {
+
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.system.ApplicationDomain;
@@ -25,7 +26,7 @@ package tl.bootloader
 
 		private var mixins : Array;
 
-		private var _currentStage : Class = ApplicationLoader;
+		private var _currentMixin : Class = ApplicationLoader;
 
 		public function PreloaderBase( app : ApplicationLoader )
 		{
@@ -39,15 +40,15 @@ package tl.bootloader
 		/**
 		 * called when there is some progress
 		 *
-		 * @param progress		(from 0.0 to 1.0) loading progress
+		 * @param progress        (from 0.0 to 1.0) loading progress
 		 */
 		public function setProgress( progress : Number, status : String = "" ) : void
 		{
 		}
 
-		protected function get currentStage() : Class
+		protected function get currentMixin() : Class
 		{
-			return _currentStage;
+			return _currentMixin;
 		}
 
 		internal function process( completeHandler : Function ) : void
@@ -65,7 +66,7 @@ package tl.bootloader
 		 *
 		 * @param e
 		 */
-		private function onMixinComplete( e : Event = null ) : void
+		protected function onMixinComplete( e : Event = null ) : void
 		{
 			if ( mixins == null || mixins.length == 0 )
 			{
@@ -78,8 +79,8 @@ package tl.bootloader
 			// Cutoff Flex stuff
 			if ( mixin.indexOf( "_FlexInit" ) == -1 && mixin.indexOf( "_Styles" ) == -1 )
 			{
-				_currentStage = ApplicationDomain.currentDomain.getDefinition( mixin ) as Class;
-				_currentStage['process']( app, setProgress, onMixinComplete );
+				_currentMixin = ApplicationDomain.currentDomain.getDefinition( mixin ) as Class;
+				_currentMixin['process']( app, setProgress, onMixinComplete );
 			} else
 			{
 				onMixinComplete();
